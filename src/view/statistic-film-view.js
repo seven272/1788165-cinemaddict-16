@@ -1,5 +1,5 @@
 export const createStatisticFilmTemplate = () => (
- `<section class="footer__statistics">
+  `<section class="footer__statistics">
  <p>130 291 movies inside</p>
 </section>`
 );
