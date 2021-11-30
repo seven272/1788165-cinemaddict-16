@@ -6,6 +6,7 @@ const getRandomInteger = (a = 0, b = 1) => {
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
+
 //генерируем название фильма
 const generateNameFilm = () => {
   const names = [
@@ -20,24 +21,23 @@ const generateNameFilm = () => {
 
   return names[randomIndex];
 };
-// console.log(generateNameFilm());
 
 //генерируем постер фильма
 const generatePosterFilm = () => {
   const posters = [
-    '../../public/images/posters/made/made-for-each-other.png',
-    '../../public/images/posters/made/popeye-meets-sinbad.png',
-    '../../public/images/posters/made/sagebrush-trail.jpg',
-    '../../public/images/posters/made/santa-claus-conquers-the-martians.jpg',
-    '../../public/images/posters/made/the-dance-of-life.jpg',
-    '../../public/images/posters/made/the-great-flamarion.jpg',
-    '../../public/images/posters/made/the-man-with-the-golden-arm.jpg',
+    './images/posters/sagebrush-trail.jpg',
+    './images/posters/made-for-each-other.png',
+    './images/posters/popeye-meets-sinbad.png',
+    './images/posters/santa-claus-conquers-the-martians.jpg',
+    './images/posters/the-dance-of-life.jpg',
+    './images/posters/the-great-flamarion.jpg',
+    './images/posters/the-man-with-the-golden-arm.jpg',
   ];
 
   const randomIndex = getRandomInteger(0, posters.length - 1);
   return posters[randomIndex];
 };
-// console.log(generatePosterFilm());
+
 
 //генерируем описание фильма
 const generateDescriptionFilm = () => {
@@ -59,14 +59,16 @@ const generateDescriptionFilm = () => {
   return descriptions[randomIndex];
 
 };
-// console.log(generateDescriptionFilm());
+
 
 //генерируем дату комметария
-const generateDateComment = () => {
-  return dayjs().format('YYYY/MM/DD HH:mm')
-};
+const generateDateComment = () => dayjs().format('YYYY/MM/DD HH:mm');
 
-// console.log(generateDateComment());
+//генерируем дату выхода фильма
+const generateDateFilm = () => {
+  const randomIndex = getRandomInteger(-70, 0);
+  return dayjs().add(randomIndex, 'year').format('YYYY');
+};
 
 //генерируем коммментарии для фильма
 const generateCommentFilm = () => {
@@ -87,11 +89,10 @@ const generateCommentFilm = () => {
   };
 };
 
-// console.log(generateCommentFilm());
 
 //генерируем массив с случайным числом комметанриев от 0 до 5
 const generateRandomQuantityComments = (comment, quantity) => {
-  let arrayComments = [];
+  const arrayComments = [];
   for (let i = 0; i < quantity; i++) {
     arrayComments.push(comment());
   }
@@ -107,7 +108,19 @@ const generateGenreFilm = () => {
   const randomIndex = getRandomInteger(0, genres.length - 1);
   return genres[randomIndex];
 };
-// console.log(generateGenreFilm());
+
+//генерируем длительность фильма
+const generateTimeFilm = () => {
+  const randomHour = getRandomInteger(0, 3);
+  const randomMinute = getRandomInteger(1, 59);
+  const timeFilm = `${randomHour}h${randomMinute}m`;
+  return timeFilm;
+};
+//генерируем общее колличество комментариев
+const generateQuantityComments = () => {
+  const randomQuantity = getRandomInteger(0, 120);
+  return randomQuantity; 
+};
 
 const generateCardFilm = () => {
   let x;
@@ -117,8 +130,11 @@ const generateCardFilm = () => {
     description: generateDescriptionFilm(),
     genre: generateGenreFilm(),
     comment: generateRandomQuantityComments(generateCommentFilm, getRandomInteger(0,5)),
+    year: generateDateFilm(),
+    time: generateTimeFilm(),
+    quantityComments: generateQuantityComments(),
     isFavorite: Boolean(getRandomInteger(0, 1)),
-  }
+  };
 };
 // console.log(generateCardFilm());
 export {generateCardFilm};
