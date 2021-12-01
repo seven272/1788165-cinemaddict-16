@@ -4,10 +4,10 @@ import {createTitleUserTemplate} from './view/title-user-view.js';
 import {createStatisticFilmTemplate} from './view/statistic-film-view.js';
 import {createPopupFilmTemplate} from './view/popup-view.js';
 import {createCardFilmTemplate} from './view/card-film-list-view.js';
-// import './mock/test-date.js';
+import './mock/test-popup.js';
 import {generateCardFilm} from './mock/test-date.js';
 import {renderTemplate, RenderPosition} from './render.js';
-// console.log(generateCardFilm());
+
 
 const CARD_FILM_COUNT = 5;
 
@@ -28,4 +28,4 @@ for(let i = 0; i < CARD_FILM_COUNT;i++) {
 }
 renderTemplate(siteMainElement, createButtonShowMoreTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteFooterStatisticElement, createStatisticFilmTemplate(), RenderPosition.BEFOREEND);
-// renderTemplate(siteMainElement, createPopupFilmTemplate(), RenderPosition.BEFOREEND);
+
