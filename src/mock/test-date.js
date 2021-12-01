@@ -38,7 +38,6 @@ const generatePosterFilm = () => {
   return posters[randomIndex];
 };
 
-
 //генерируем описание фильма
 const generateDescriptionFilm = () => {
   const fullTextDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.';
@@ -60,7 +59,6 @@ const generateDescriptionFilm = () => {
 
 };
 
-
 //генерируем дату комметария
 const generateDateComment = () => dayjs().format('YYYY/MM/DD HH:mm');
 
@@ -78,7 +76,7 @@ const generateCommentFilm = () => {
     'Актерская игра на высоте',
     'Избитый сюжет, уже неинтересно...',
   ];
-  const commentEmotions = ['smile', 'sleeping', 'puke', 'angry'];
+  const commentEmotions = ['./images/emoji/smile.png', './images/emoji/sleeping.png', './images/emoji/puke.png', './images/emoji/angry.png'];
   const commentUsers = ['Иван','Ирина','Ольга','Михаил'];
   const randomIndex = getRandomInteger(0, commentTexts.length - 1);
   return {
@@ -100,8 +98,6 @@ const generateRandomQuantityComments = (comment, quantity) => {
 
 };
 
-// console.log(generateRandomQuantityComments(generateCommentFilm, getRandomInteger(0,5)))
-
 //генерируем жанр фильма
 const generateGenreFilm = () => {
   const genres = ['Musical',' Western',' Drama','Comedy',' Cartoon'];
@@ -122,19 +118,52 @@ const generateQuantityComments = () => {
   return randomQuantity; 
 };
 
-const generateCardFilm = () => {
-  let x;
+//генерируем рейтинг фильма
+const generateRangeFilm = () => {
+  const randomRange = (getRandomInteger(0, 9) + Math.random()).toFixed(1);
+  return randomRange;
+};
+
+//генерируем страну
+const generateCountryFilm = () => {
+  const countries = [
+    'Россия',
+    'США',
+    'Бельгия',
+  ];
+  const randomIndex = getRandomInteger(0, countries.length - 1);
+  return countries[randomIndex];
+};
+
+//генерируем дату выхода фильма
+const generateReleaseFilm = () => {
+  const randomIndex = getRandomInteger(-30000, 0);
+  return dayjs().add(randomIndex, 'days').format('DD MMMM YYYY');
+};
+
+//генерируем режиссера, актеров
+const generateWorkesFilm = () => {
+  const filmDirectors = [
+    'Сергей Иванов',
+    'Иван Иванов',
+    'Стивен Спилберг',
+  ];
+  const filmWriters = [
+    'Анна Каренина, Лев Толстой',
+    'Айн Ренд',
+    'Алла Пугачева, Максим Галкин, Филипп Кирковов',
+  ];
+  const filmActors = [
+    'Анна Актрисова, Дженефер Алистон, Наталья Воронкова',
+    'Сергей Гармаш, Артур Егоров, Александр Скляр',
+    'Алла Пугавкина, Глеб Самойлов, Неизвестный Актер',
+  ];
+  const randomIndex = getRandomInteger(0, filmDirectors.length - 1);
   return {
-    name:generateNameFilm(),
-    poster:generatePosterFilm(),
-    description: generateDescriptionFilm(),
-    genre: generateGenreFilm(),
-    comment: generateRandomQuantityComments(generateCommentFilm, getRandomInteger(0,5)),
-    year: generateDateFilm(),
-    time: generateTimeFilm(),
-    quantityComments: generateQuantityComments(),
-    isFavorite: Boolean(getRandomInteger(0, 1)),
+    director:filmDirectors[randomIndex],
+    writer: filmWriters[randomIndex],
+    actor: filmActors[randomIndex],
   };
 };
-// console.log(generateCardFilm());
-export {generateCardFilm};
+
+export {getRandomInteger, generateNameFilm, generatePosterFilm, generateDescriptionFilm, generateGenreFilm, generateTimeFilm,generateRandomQuantityComments, generateDateFilm, generateQuantityComments, generateCommentFilm, generateRangeFilm, generateCountryFilm, generateReleaseFilm, generateWorkesFilm};
