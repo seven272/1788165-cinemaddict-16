@@ -1,5 +1,4 @@
 const path = require('path');
-
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -8,15 +7,15 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
-   hot: false
- },
- module: {
-  rules: [
-      {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: ['babel-loader']
-      }
-  ]
- }
+    hot: false
+  },
+  module: {
+    rules: [
+        {
+          test: /\.js$/,
+          exclude: /(node_modules)/,
+          use: ['babel-loader']
+        }
+    ]
+  }
 };
