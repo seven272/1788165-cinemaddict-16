@@ -14,12 +14,10 @@ const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatisticElement = siteFooterElement.querySelector('.footer__statistics');
 
-const siteFilmListContainerElement = document.querySelector('.films-list__container')
-
 renderTemplate(siteHeaderElement, createTitleUserTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteMainElement, createSiteMenuTemplate(), RenderPosition.BEFOREEND);
 for(let i = 0; i < CARD_FILM_COUNT;i++) {
- renderTemplate(siteMainElement, createCardFilmTemplate(), RenderPosition.BEFOREEND);
+  renderTemplate(siteMainElement, createCardFilmTemplate(), RenderPosition.BEFOREEND);
 }
 renderTemplate(siteMainElement, createButtonShowMoreTemplate(), RenderPosition.BEFOREEND);
 renderTemplate(siteFooterStatisticElement, createStatisticFilmTemplate(), RenderPosition.BEFOREEND);
