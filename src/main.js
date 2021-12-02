@@ -5,10 +5,10 @@ import {createStatisticFilmTemplate} from './view/statistic-film-view.js';
 import {createPopupFilmTemplate} from './view/popup-view.js';
 import {createCardFilmTemplate} from './view/card-film-list-view.js';
 // import './mock/test-popup.js';
-import {createCommentPopupTemplate} from './view/comment-popup-view.js';
+// import {createCommentPopupTemplate} from './view/comment-popup-view.js';
 import {generateCardFilm} from './mock/test-card.js';
 import {generatePopupFilm} from './mock/test-popup.js';
-import {generateCommentFilm} from './mock/test-date.js';
+// import {generateCommentFilm} from './mock/test-date.js';
 import {renderTemplate, RenderPosition} from './render.js';
 
 
@@ -16,8 +16,9 @@ const CARD_FILM_COUNT = 5;
 //
 const cards = Array.from({length: CARD_FILM_COUNT}, generateCardFilm);
 const popups = Array.from({length: CARD_FILM_COUNT}, generatePopupFilm);
-const comments = Array.from({length: CARD_FILM_COUNT}, generateCommentFilm);
-console.log(comments);
+// const comments = Array.from({length: CARD_FILM_COUNT}, generateCommentFilm);
+// console.log(comments);
+
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer');
