@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-expressions */
-import dayjs from 'dayjs';
-
 export const createPopupFilmTemplate = (popup) => {
-  const {name, poster, description, range, genre, country, release, time, workes, comment, quantityComments, isFavorite} = popup;
+  const {name, poster, description, range, genre, country, release, time, workes, comment} = popup;
 
   const createComments = () => {
     let newCommentsList = '';

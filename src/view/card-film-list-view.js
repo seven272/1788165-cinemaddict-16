@@ -1,10 +1,18 @@
-import dayjs from 'dayjs';
 export const createCardFilmTemplate = (card) => {
-  const {name, poster, description, genre, year, time, quantityComments, isFavorite} = card;
+  const {name, poster, description, genre, year, time, quantityComments, isFavorite, isHistory, isWatchlist} = card;
   //Добавляем класс кнопке "избранное"
   const favoriteClassName = isFavorite
     ? 'film-card__controls-item film-card__controls-item--favorite film-card__controls-item--active'
     : 'film-card__controls-item film-card__controls-item--favorite';
+  //Добавляем класс кнопке просмотренно
+  const historyClassName = isHistory
+    ? 'film-card__controls-item film-card__controls-item--mark-as-watched film-card__controls-item--active'
+    : 'film-card__controls-item film-card__controls-item--mark-as-watched';
+  //Добавляем класс кнопке список просмотров
+  const watchlistClassName = isWatchlist
+    ? 'film-card__controls-item film-card__controls-item--add-to-watchlist film-card__controls-item--active'
+    : 'film-card__controls-item film-card__controls-item--add-to-watchlist"';
+
 
   return `<article class="film-card">
     <a class="film-card__link">
@@ -20,8 +28,8 @@ export const createCardFilmTemplate = (card) => {
       <span class="film-card__comments">${quantityComments} comments</span>
     </a>
     <div class="film-card__controls">
-      <button class="film-card__controls-item film-card__controls-item--add-to-watchlist film-card__controls-item--active" type="button">Add to watchlist</button>
-      <button class="film-card__controls-item film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
+      <button class="${watchlistClassName}" type="button">Add to watchlist</button>
+      <button class="${historyClassName}" type="button">Mark as watched</button>
       <button class="${favoriteClassName}" type="button">Mark as favorite</button>
     </div>
   </article>`;

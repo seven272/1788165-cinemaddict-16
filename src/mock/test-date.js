@@ -1,4 +1,3 @@
-// import '../../public/images/posters/made/made-for-each-other.png'
 import dayjs from 'dayjs';
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -115,7 +114,7 @@ const generateTimeFilm = () => {
 //генерируем общее колличество комментариев
 const generateQuantityComments = () => {
   const randomQuantity = getRandomInteger(0, 120);
-  return randomQuantity; 
+  return randomQuantity;
 };
 
 //генерируем рейтинг фильма
