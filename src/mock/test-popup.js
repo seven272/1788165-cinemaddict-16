@@ -11,9 +11,7 @@ const generatePopupFilm = () => ({
   release: generateReleaseFilm(),
   workes: generateWorkesFilm(),
   comment: generateRandomQuantityComments(generateCommentFilm, getRandomInteger(0,5)),
-  // year: generateDateFilm(),
   time: generateTimeFilm(),
-  // quantityComments: generateQuantityComments(),
   isFavorite: Boolean(getRandomInteger(0, 1)),
 });
 export {generatePopupFilm};
