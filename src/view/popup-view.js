@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
-export const createPopupFilmTemplate = (popup) => {
+import {createElement} from '../render.js';
+const createPopupFilmTemplate = (popup) => {
   const {name, poster, description, range, genre, country, release, time, workes, comment} = popup;
 
   const createComments = () => {
@@ -159,3 +160,33 @@ export const createPopupFilmTemplate = (popup) => {
   </template>
   `;
 };
+
+export default class PopupListView {
+  #element = null;
+  #popup = null;
+
+  constructor(popup) {
+    this.#popup = popup;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createPopupFilmTemplate();
+  }
+
+  // eslint-disable-next-line no-dupe-class-members
+  get template() {
+    return createPopupFilmTemplate(this.#popup);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

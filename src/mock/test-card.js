@@ -12,4 +12,5 @@ const generateCardFilm = () => ({
   isHistory:Boolean(getRandomInteger(0, 1)),
   isFavorite: Boolean(getRandomInteger(0, 1)),
 });
+
 export {generateCardFilm};

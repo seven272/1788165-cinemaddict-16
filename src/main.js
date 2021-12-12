@@ -1,20 +1,22 @@
-import {createSiteMenuTemplate} from './view/site-menu-view.js';
-import {createButtonShowMoreTemplate} from './view/button-show-more-view.js';
-import {createTitleUserTemplate} from './view/title-user-view.js';
-import {createStatisticFilmTemplate} from './view/statistic-film-view.js';
-import {createPopupFilmTemplate} from './view/popup-view.js';
-import {createCardFilmTemplate} from './view/card-film-list-view.js';
-import {createSortTemplate} from './view/sort-view.js';
+import SiteMenuView from './view/site-menu-view.js';
+import ButtonMoreView from './view/button-show-more-view.js';
+import TitleUserView from './view/title-user-view.js';
+import StatisticFilmView from './view/statistic-film-view.js';
+import PopupListView from './view/popup-view.js';
+import CardListView from './view/card-film-list-view.js';
+import SortCardView from './view/sort-view.js';
+import MessageNoCardView from './view/no-card-view.js';
 import {generateCardFilm} from './mock/test-card.js';
 import {generatePopupFilm} from './mock/test-popup.js';
-import {renderTemplate, RenderPosition} from './render.js';
+import {generateFilter} from './mock/test-filter.js';
+import {RenderPosition, render} from './render.js';
 
-
-const CARD_FILM_COUNT = 14;
+const CARD_FILM_COUNT = 18;
 const CARD_COUNT_PER_STEP = 5;
 
 const cards = Array.from({length: CARD_FILM_COUNT}, generateCardFilm);
 const popups = Array.from({length: CARD_COUNT_PER_STEP}, generatePopupFilm);
+const filters = generateFilter(cards);
 
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
@@ -23,35 +25,68 @@ const siteFooterStatisticElement = siteFooterElement.querySelector('.footer__sta
 const siteFilmListContainerElement = document.querySelector('.films-list__container');
 const siteSortFilterElement = siteMainElement.querySelector('.films-sort-and-filter');
 
+const renderCard = (cardListElement, card) => {
+  const cardComponent = new CardListView(card);
+  render(cardListElement, cardComponent.element, RenderPosition.BEFOREEND);
 
-renderTemplate(siteHeaderElement, createTitleUserTemplate(), RenderPosition.AFTEREND);
-renderTemplate(siteSortFilterElement, createSiteMenuTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteSortFilterElement, createSortTemplate(), RenderPosition.BEFOREEND);
+};
 
-for(let i = 0; i < Math.min(cards.length, CARD_COUNT_PER_STEP);i++) {
-  renderTemplate(siteFilmListContainerElement, createCardFilmTemplate(cards[i]), RenderPosition.BEFOREEND);
-}
 
-renderTemplate(siteFooterStatisticElement, createStatisticFilmTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(siteMainElement, createPopupFilmTemplate(popups[0]), RenderPosition.BEFOREEND);
-const closePopupButton = document.querySelector('.film-details__close-btn');
-const popupElement = document.querySelector('.film-details');
-closePopupButton.addEventListener('click', ()=> {
-  popupElement.remove();
-});
+render(siteHeaderElement, new TitleUserView().element, RenderPosition.AFTEREND);
+render(siteSortFilterElement, new SiteMenuView(filters).element, RenderPosition.BEFOREEND);
+render(siteSortFilterElement, new SortCardView().element, RenderPosition.BEFOREEND);
+render(siteFooterStatisticElement, new StatisticFilmView().element, RenderPosition.BEFOREEND);
+if (cards.length === 0) {
+  render(siteMainElement, new MessageNoCardView().element, RenderPosition.BEFOREEND);
+} else {
+  for(let i = 0; i < Math.min(cards.length, CARD_COUNT_PER_STEP);i++) {
+    renderCard(siteFilmListContainerElement, cards[i]);
+  }
 
-if (cards.length > CARD_COUNT_PER_STEP) {
-  let renderedCardCount = CARD_COUNT_PER_STEP;
-  renderTemplate(siteMainElement, createButtonShowMoreTemplate(), RenderPosition.BEFOREEND);
-  const loadMoreButton = document.querySelector('.films-list__show-more');
 
-  loadMoreButton.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    cards.slice(renderedCardCount, renderedCardCount + CARD_COUNT_PER_STEP).forEach((card)=>renderTemplate(siteFilmListContainerElement, createCardFilmTemplate(card), RenderPosition.BEFOREEND));
-    renderedCardCount +=CARD_COUNT_PER_STEP;
-    if (renderedCardCount >= cards.length) {
-      loadMoreButton.remove();
+  // ф-я показ попап при клике на карточку фильма и нажатии ESC
+  const showClickPopup = () => {
+    const posterContainer = document.querySelector('.films-list__container');
+    const posterImg = posterContainer.querySelectorAll('.film-card__poster');
+    posterImg.forEach((element)=> {
+      element.addEventListener('click', () => {
+        render(siteMainElement, new PopupListView(popups[0]).element, RenderPosition.BEFOREEND);
+        document.body.classList.add('hide-overflow');
+        const closePopupButton = document.querySelector('.film-details__close-btn');
+        const popupElement = document.querySelector('.film-details');
+        closePopupButton.addEventListener('click', ()=> {
+          document.body.classList.remove('hide-overflow');
+          popupElement.remove();
+        });
+        document.addEventListener('keydown',(evt) => {
+          if (evt.key === 'Escape' || evt.key === 'Esc') {
+            evt.preventDefault();
+            document.body.classList.remove('hide-overflow');
+            popupElement.remove();
+          }
+        });
+      });
+    });
+  };
+  showClickPopup();
+
+  //самовызывающиеся функция
+  (() => {
+    if (cards.length > CARD_COUNT_PER_STEP) {
+      let renderedCardCount = CARD_COUNT_PER_STEP;
+      render(siteMainElement, new ButtonMoreView().element, RenderPosition.BEFOREEND);
+      const loadMoreButton = document.querySelector('.films-list__show-more');
+
+      loadMoreButton.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        cards.slice(renderedCardCount, renderedCardCount + CARD_COUNT_PER_STEP).forEach((card)=>renderCard(siteFilmListContainerElement, card));
+        renderedCardCount +=CARD_COUNT_PER_STEP;
+        showClickPopup();
+        if (renderedCardCount >= cards.length) {
+          loadMoreButton.remove();
+        }
+      });
     }
-  });
+  })();
 
 }
