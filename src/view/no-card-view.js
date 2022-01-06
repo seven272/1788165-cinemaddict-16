@@ -1,5 +1,5 @@
 
-import {createElement} from '../render.js';
+import AbstractView from './abstract-view.js';
 
 const createMessageNoCard = () => (
   `<section class="films-list">
@@ -7,21 +7,9 @@ const createMessageNoCard = () => (
   </section>`
 );
 
-export default class MessageNoCardView {
- #element = null;
- get element() {
-   if (!this.#element) {
-     this.#element = createElement(this.template);
-   }
+export default class MessageNoCardView extends AbstractView {
+  get template() {
+    return createMessageNoCard();
+  }
 
-   return this.#element;
- }
-
- get template() {
-   return createMessageNoCard();
- }
-
- removeElement() {
-   this.#element = null;
- }
 }

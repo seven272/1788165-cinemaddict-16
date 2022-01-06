@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from './abstract-view.js';
 
 export const createSortTemplate = () => (
   `<ul class="sort">
@@ -8,22 +8,8 @@ export const createSortTemplate = () => (
 </ul>`
 );
 
-export default class SortCardView {
-  #element = null;
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
+export default class SortCardView extends AbstractView{
   get template() {
     return createSortTemplate();
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from './abstract-view.js';
 
 const createCardFilmTemplate = (card) => {
   const {name, poster, description, genre, year, time, quantityComments, isFavorite, isHistory, isWatchlist} = card;
@@ -37,32 +37,15 @@ const createCardFilmTemplate = (card) => {
   </article>`;
 };
 
-export default class CardListView {
-  #element = null;
+export default class CardListView extends AbstractView {
   #card = null;
 
   constructor(card) {
+    super();
     this.#card = card;
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  get template() {
-    return createCardFilmTemplate();
-  }
-
-  // eslint-disable-next-line no-dupe-class-members
   get template() {
     return createCardFilmTemplate(this.#card);
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

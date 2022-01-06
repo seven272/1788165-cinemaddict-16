@@ -52,12 +52,14 @@ if (cards.length === 0) {
       element.addEventListener('click', () => {
         render(siteMainElement, new PopupListView(popups[0]).element, RenderPosition.BEFOREEND);
         document.body.classList.add('hide-overflow');
-        const closePopupButton = document.querySelector('.film-details__close-btn');
         const popupElement = document.querySelector('.film-details');
-        closePopupButton.addEventListener('click', ()=> {
+        const popupViewComponent = new PopupListView(popups[0]);
+        //удаление по нажатию на кнопку перенесен в сам компонет
+        popupViewComponent.setEditClickHandler(() => {
           document.body.classList.remove('hide-overflow');
           popupElement.remove();
         });
+
         document.addEventListener('keydown',(evt) => {
           if (evt.key === 'Escape' || evt.key === 'Esc') {
             evt.preventDefault();
@@ -76,9 +78,9 @@ if (cards.length === 0) {
       let renderedCardCount = CARD_COUNT_PER_STEP;
       render(siteMainElement, new ButtonMoreView().element, RenderPosition.BEFOREEND);
       const loadMoreButton = document.querySelector('.films-list__show-more');
-
-      loadMoreButton.addEventListener('click', (evt) => {
-        evt.preventDefault();
+      const loadMoreButtonComponent = new ButtonMoreView();
+      //слушатель перенесен в сам компонент
+      loadMoreButtonComponent.setClickHandler(() => {
         cards.slice(renderedCardCount, renderedCardCount + CARD_COUNT_PER_STEP).forEach((card)=>renderCard(siteFilmListContainerElement, card));
         renderedCardCount +=CARD_COUNT_PER_STEP;
         showClickPopup();

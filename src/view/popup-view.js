@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
-import {createElement} from '../render.js';
+// import {createElement} from '../render.js';
+import AbstractView from './abstract-view.js';
 const createPopupFilmTemplate = (popup) => {
   const {name, poster, description, range, genre, country, release, time, workes, comment} = popup;
 
@@ -161,32 +162,26 @@ const createPopupFilmTemplate = (popup) => {
   `;
 };
 
-export default class PopupListView {
-  #element = null;
+export default class PopupListView extends AbstractView{
+  // #element = null;
   #popup = null;
 
   constructor(popup) {
+    super();
     this.#popup = popup;
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  get template() {
-    return createPopupFilmTemplate();
-  }
-
-  // eslint-disable-next-line no-dupe-class-members
   get template() {
     return createPopupFilmTemplate(this.#popup);
   }
 
-  removeElement() {
-    this.#element = null;
+  setEditClickHandler = (callback) => {
+    this._callback.editClick = callback;
+    document.querySelector('.film-details__close-btn').addEventListener('click', this.#editClickHandler);
+  }
+
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 }
